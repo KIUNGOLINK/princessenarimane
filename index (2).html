@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les Aventures de la Princesse Narimane — Édition Fourteen Vibes</title>
+<meta name="description" content="Un univers magique qui aide les enfants à grandir. Des histoires éducatives, féeriques et inspirantes pour éveiller l'imagination et renforcer la confiance.">
+<meta property="og:title" content="Les Aventures de la Princesse Narimane">
+<meta property="og:description" content="Un univers magique pour les enfants de 2 à 9 ans.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#03080f;font-family:'Nunito',sans-serif;overflow-x:hidden;color:#fff;cursor:none}
+#cursor{width:18px;height:18px;background:radial-gradient(circle,#f0c96a,#e8833a);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+#cursor-trail{width:38px;height:38px;border:1px solid rgba(240,201,106,0.35);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left 0.09s,top 0.09s}
+canvas#stars{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(3,8,15,0.95) 0%,transparent 100%)}
+.nav-logo{font-family:'Cinzel',serif;font-size:0.82rem;letter-spacing:0.15em;color:#f0c96a;font-weight:600}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:0.78rem;letter-spacing:0.1em;color:rgba(255,255,255,0.55);text-decoration:none;font-weight:600;text-transform:uppercase;transition:color 0.3s}
+.nav-links a:hover{color:#f0c96a}
+.nav-btn{background:linear-gradient(135deg,#D4A843,#e8833a);color:#1a0a00;padding:0.5rem 1.5rem;border-radius:50px;font-size:0.78rem;font-weight:800;text-decoration:none;letter-spacing:0.05em;transition:all 0.3s;text-transform:uppercase}
+.nav-btn:hover{transform:scale(1.05);box-shadow:0 0 25px rgba(212,168,67,0.5)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;z-index:1}
+.hero-bg-parallax{position:absolute;inset:0;z-index:0;overflow:hidden}
+.parallax-img{position:absolute;inset:-60px;background-image:url('narimane-bg.jpg');background-size:cover;background-position:center top;filter:brightness(0.35) saturate(1.2);transform:scale(1.15);will-change:transform}
+.parallax-fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,8,15,0.25) 0%,rgba(3,8,15,0.45) 40%,rgba(3,8,15,0.85) 75%,rgba(3,8,15,1) 100%);z-index:1}
+.hero-content{position:relative;z-index:3;text-align:center;padding:2rem;max-width:820px}
+.crown-icon{font-size:3.2rem;display:block;margin-bottom:1.2rem;animation:float-crown 3s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(240,201,106,0.9))}
+@keyframes float-crown{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-10px) rotate(3deg)}}
+.hero-eyebrow{font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.4em;color:#f0c96a;text-transform:uppercase;margin-bottom:1.2rem;opacity:0.9}
+.hero-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.5rem,4vw,3.2rem);font-weight:700;line-height:1.15;margin-bottom:0.3rem;background:linear-gradient(135deg,#FDF3DC 0%,#f0c96a 40%,#e8833a 70%,#FDF3DC 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 20px rgba(240,201,106,0.3))}
+.hero-princesse{font-family:'Cinzel Decorative',serif;font-size:clamp(1rem,2.5vw,1.8rem);font-weight:400;background:linear-gradient(135deg,#f0c96a,#e8833a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:0.2em;margin-bottom:0.2rem;display:block}
+.hero-subtitle-name{font-family:'Cinzel Decorative',serif;font-size:clamp(2.8rem,8.5vw,6.5rem);font-weight:900;background:linear-gradient(135deg,#fff 0%,#f0c96a 35%,#e8833a 65%,#fff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:1.5rem;display:block;filter:drop-shadow(0 0 40px rgba(240,201,106,0.6));animation:shimmer 4s ease-in-out infinite}
+@keyframes shimmer{0%,100%{filter:drop-shadow(0 0 30px rgba(240,201,106,0.4))}50%{filter:drop-shadow(0 0 60px rgba(232,131,58,0.8))}}
+.hero-desc{font-size:1.05rem;color:rgba(255,253,247,0.7);line-height:1.85;max-width:540px;margin:0 auto 2.5rem;font-weight:300}
+.hero-btns{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:0.5rem;animation:bounce-hint 2s ease-in-out infinite}
+@keyframes bounce-hint{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+.scroll-hint span{font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(240,201,106,0.6);font-weight:600}
+.scroll-arrow{width:18px;height:18px;border-right:2px solid rgba(240,201,106,0.45);border-bottom:2px solid rgba(240,201,106,0.45);transform:rotate(45deg)}
+
+/* BUTTONS */
+.btn-glow{background:linear-gradient(135deg,#D4A843,#e8833a);color:#1a0a00;padding:1rem 2.8rem;border-radius:50px;font-family:'Nunito',sans-serif;font-size:0.95rem;font-weight:800;text-decoration:none;letter-spacing:0.05em;display:inline-block;transition:all 0.3s;box-shadow:0 0 35px rgba(212,168,67,0.4),0 0 70px rgba(212,168,67,0.1);position:relative;overflow:hidden}
+.btn-glow::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,0.25) 50%,transparent 60%);transform:translateX(-100%);transition:transform 0.5s}
+.btn-glow:hover::before{transform:translateX(200%)}
+.btn-glow:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 0 55px rgba(212,168,67,0.65),0 0 100px rgba(232,131,58,0.25)}
+.btn-ghost{background:transparent;color:rgba(255,253,247,0.8);padding:1rem 2.8rem;border-radius:50px;border:1px solid rgba(240,201,106,0.35);font-family:'Nunito',sans-serif;font-size:0.95rem;font-weight:700;text-decoration:none;display:inline-block;transition:all 0.3s;backdrop-filter:blur(10px)}
+.btn-ghost:hover{border-color:rgba(240,201,106,0.7);background:rgba(240,201,106,0.07);color:#f0c96a;transform:translateY(-3px)}
+
+/* SECTIONS */
+.section-dark{position:relative;z-index:2;padding:7rem 4rem;background:linear-gradient(180deg,#03080f 0%,#0a0320 50%,#03080f 100%)}
+.section-heading{text-align:center;margin-bottom:4.5rem}
+.section-tag{font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.35em;color:#f0c96a;text-transform:uppercase;display:block;margin-bottom:1rem}
+.section-h2{font-family:'Cinzel Decorative',serif;font-size:clamp(1.6rem,3.5vw,2.8rem);background:linear-gradient(135deg,#fff 20%,#f0c96a 50%,#fff 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;line-height:1.25}
+
+/* CARDS */
+.cards-world{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1050px;margin:0 auto}
+.world-card{position:relative;border-radius:22px;overflow:hidden;background:linear-gradient(135deg,rgba(107,47,160,0.18),rgba(20,5,50,0.85));border:1px solid rgba(240,201,106,0.12);padding:2.5rem 2rem;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);cursor:pointer}
+.world-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(212,168,67,0.13) 0%,transparent 60%);opacity:0;transition:opacity 0.3s}
+.world-card:hover::before{opacity:1}
+.world-card:hover{transform:translateY(-8px) scale(1.02);border-color:rgba(240,201,106,0.35);box-shadow:0 20px 55px rgba(212,168,67,0.18),0 0 80px rgba(107,47,160,0.25)}
+.card-orb{width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.9rem;margin-bottom:1.5rem}
+.orb-1{background:radial-gradient(circle,#6B2FA0,#2a0a40)}
+.orb-2{background:radial-gradient(circle,#C45E1A,#5a1a00)}
+.orb-3{background:radial-gradient(circle,#1a5e6B,#002030)}
+.world-card h3{font-family:'Cinzel',serif;font-size:1rem;color:#f0c96a;margin-bottom:0.8rem;font-weight:600}
+.world-card p{font-size:0.88rem;line-height:1.8;color:rgba(255,253,247,0.6)}
+
+/* ADVENTURES */
+.adventures-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1050px;margin:0 auto}
+.adv-card{position:relative;border-radius:20px;overflow:hidden;height:300px;cursor:pointer;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
+.adv-card:hover{transform:scale(1.03)}
+.adv-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:4.5rem}
+.adv-bg-1{background:linear-gradient(135deg,#150a45,#6B2FA0,#C45E1A)}
+.adv-bg-2{background:linear-gradient(135deg,#0a1e55,#6B2FA0,#C4291A)}
+.adv-bg-3{background:linear-gradient(135deg,#0a2e50,#1D9E75,#6B2FA0)}
+.adv-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(0deg,rgba(3,8,15,0.97) 0%,transparent 100%);padding:2rem 1.5rem 1.5rem}
+.adv-num{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.3em;color:#f0c96a;text-transform:uppercase;margin-bottom:0.4rem}
+.adv-title{font-family:'Cinzel',serif;font-size:0.95rem;color:#fff;font-weight:600;line-height:1.3;margin-bottom:0.4rem}
+.adv-tag{font-size:0.72rem;color:rgba(240,201,106,0.65);font-weight:600}
+.adv-card-soon{cursor:default}
+.adv-card-soon:hover{transform:none}
+.adv-soon-badge{position:absolute;top:1.2rem;right:1.2rem;background:rgba(240,201,106,0.1);border:1px solid rgba(240,201,106,0.22);color:rgba(240,201,106,0.55);font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.35rem 0.9rem;border-radius:50px;z-index:2}
+
+/* TESTIMONIALS */
+.testimonials-dark{max-width:880px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.testi{background:rgba(255,253,247,0.04);border:1px solid rgba(240,201,106,0.1);border-radius:18px;padding:2rem;transition:all 0.3s}
+.testi:hover{border-color:rgba(240,201,106,0.28);background:rgba(240,201,106,0.04)}
+.testi-stars{color:#f0c96a;font-size:0.85rem;letter-spacing:3px;margin-bottom:0.8rem}
+.testi p{font-size:0.9rem;line-height:1.75;color:rgba(255,253,247,0.65);font-style:italic;margin-bottom:0.8rem}
+.testi-name{font-size:0.72rem;color:#f0c96a;font-weight:700;letter-spacing:0.05em}
+
+/* PARTENARIAT */
+.partenariat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;max-width:1000px;margin:0 auto 3rem}
+.part-card{border-radius:18px;overflow:hidden;background:rgba(107,47,160,0.12);border:1px solid rgba(240,201,106,0.1);padding:2rem 1.2rem;text-align:center;transition:all 0.3s}
+.part-card:hover{border-color:rgba(240,201,106,0.3);transform:translateY(-5px)}
+.part-card h3{font-family:'Cinzel',serif;font-size:0.85rem;color:#f0c96a;margin:0.8rem 0 0.4rem}
+.part-card p{font-size:0.78rem;color:rgba(255,253,247,0.55);line-height:1.6}
+
+/* CTA */
+.cta-universe{position:relative;padding:9rem 4rem;text-align:center;overflow:hidden;background:linear-gradient(180deg,#03080f 0%,#150040 50%,#03080f 100%)}
+.cta-universe::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(212,168,67,0.1) 0%,rgba(107,47,160,0.09) 40%,transparent 70%);border-radius:50%;animation:pulse-cta 4s ease-in-out infinite}
+@keyframes pulse-cta{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.15)}}
+.cta-universe h2{font-family:'Cinzel Decorative',serif;font-size:clamp(1.8rem,4.5vw,3.5rem);background:linear-gradient(135deg,#fff 20%,#f0c96a 50%,#e8833a 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:1.2rem;position:relative;z-index:1}
+.cta-universe p{font-size:1.05rem;color:rgba(255,253,247,0.6);max-width:480px;margin:0 auto 3rem;line-height:1.8;position:relative;z-index:1}
+.ring-deco{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(240,201,106,0.12);animation:ring-expand 4s ease-out infinite}
+@keyframes ring-expand{0%{width:200px;height:200px;opacity:0.7}100%{width:700px;height:700px;opacity:0}}
+
+/* FOOTER */
+footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;border-top:1px solid rgba(240,201,106,0.08)}
+.footer-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:3rem;margin-bottom:3rem}
+.foot-brand h3{font-family:'Cinzel',serif;font-size:1rem;color:#f0c96a;letter-spacing:0.12em;margin-bottom:0.5rem}
+.foot-brand p{font-size:0.78rem;color:rgba(255,255,255,0.35);line-height:1.7;max-width:240px}
+.foot-edition{font-size:0.72rem;color:rgba(240,201,106,0.5);margin-top:0.5rem;letter-spacing:0.05em}
+.foot-nav h4,.foot-social h4{font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:1.2rem}
+.foot-links{list-style:none;display:flex;flex-direction:column;gap:0.6rem}
+.foot-links a{font-size:0.82rem;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.3s;letter-spacing:0.03em}
+.foot-links a:hover{color:#f0c96a}
+.soc-btns{display:flex;gap:0.8rem}
+.soc{width:42px;height:42px;border-radius:50%;border:1px solid rgba(240,201,106,0.18);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all 0.3s;background:rgba(240,201,106,0.04)}
+.soc:hover{background:rgba(240,201,106,0.12);border-color:rgba(240,201,106,0.45);transform:translateY(-2px)}
+.foot-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.foot-copy{font-size:0.72rem;color:rgba(255,255,255,0.2);letter-spacing:0.05em}
+.foot-group{font-family:'Cinzel',serif;font-size:0.65rem;color:rgba(240,201,106,0.3);letter-spacing:0.1em;text-transform:uppercase}
+
+/* PARTICLES */
+.magic-particles-container{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.floating-particle{position:absolute;border-radius:50%;animation:particle-float linear infinite;pointer-events:none}
+@keyframes particle-float{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+
+/* REVEAL */
+.reveal-up{opacity:0;transform:translateY(45px);transition:all 0.9s cubic-bezier(0.16,1,0.3,1)}
+.reveal-up.vis{opacity:1;transform:translateY(0)}
+.delay-1{transition-delay:0.1s}.delay-2{transition-delay:0.2s}.delay-3{transition-delay:0.3s}.delay-4{transition-delay:0.4s}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  .section-dark{padding:5rem 1.5rem}
+  .cards-world,.adventures-row,.partenariat-grid,.testimonials-dark{grid-template-columns:1fr}
+  .hero-content{padding:1rem}
+  .cta-universe{padding:6rem 2rem}
+  footer{padding:2.5rem 1.5rem 1.5rem}
+  .footer-top{flex-direction:column;gap:2rem}
+  #cursor,#cursor-trail{display:none}
+  body{cursor:auto}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+<canvas id="stars"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">✦ PRINCESSE NARIMANE</div>
+  <ul class="nav-links">
+    <li><a href="#univers">L'univers</a></li>
+    <li><a href="#aventures">Aventures</a></li>
+    <li><a href="#partenariats">Partenariats</a></li>
+  </ul>
+  <a href="https://lesaventuresdelaprincessenarimane.myshopify.com" class="nav-btn">Commander ✦</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="accueil">
+  <div class="hero-bg-parallax">
+    <div class="parallax-img" id="parallaxImg"></div>
+    <div class="parallax-fade"></div>
+  </div>
+  <div class="magic-particles-container" id="particles"></div>
+  <div class="hero-content">
+    <span class="crown-icon">👑</span>
+    <p class="hero-eyebrow">✦ Un univers magique ✦</p>
+    <h1 class="hero-title">Les Aventures de la</h1>
+    <span class="hero-princesse">Princesse</span>
+    <span class="hero-subtitle-name">Narimane</span>
+    <p class="hero-desc">Entre les étoiles africaines et la magie des cheveux, une princesse extraordinaire t'attend dans un univers où tout est possible.</p>
+    <div class="hero-btns">
+      <a href="#aventures" class="btn-glow">✦ Entrer dans l'univers</a>
+      <a href="https://lesaventuresdelaprincessenarimane.myshopify.com" class="btn-ghost">Commander le livre →</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Descends</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- UNIVERS -->
+<section class="section-dark" id="univers">
+  <div class="section-heading reveal-up">
+    <span class="section-tag">✦ L'univers</span>
+    <h2 class="section-h2">Un monde enchanté.<br>Une princesse extraordinaire.</h2>
+  </div>
+  <div class="cards-world">
+    <div class="world-card reveal-up delay-1">
+      <div class="card-orb orb-1">✨</div>
+      <h3>Développement émotionnel</h3>
+      <p>Chaque aventure aide les enfants à comprendre leurs émotions, développer leur confiance et grandir avec des valeurs profondes.</p>
+    </div>
+    <div class="world-card reveal-up delay-2">
+      <div class="card-orb orb-2">👑</div>
+      <h3>Représentation magique</h3>
+      <p>Narimane permet aux petites filles de se reconnaître, de rêver plus grand et de voir leur beauté naturelle célébrée avec élégance.</p>
+    </div>
+    <div class="world-card reveal-up delay-3">
+      <div class="card-orb orb-3">🌍</div>
+      <h3>Racines</h3>
+      <p>Un univers riche d'influences culturelles africaines — marchés colorés, contes au coin du feu, sagesse des anciens.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AVENTURES -->
+<section class="section-dark" id="aventures" style="padding-top:2rem">
+  <div class="section-heading reveal-up">
+    <span class="section-tag">✦ Les aventures</span>
+    <h2 class="section-h2">Chaque histoire,<br>un portail vers la magie.</h2>
+  </div>
+  <div class="adventures-row">
+    <a href="https://lesaventuresdelaprincessenarimane.myshopify.com/products/les-aventures-de-la-princesse-narimane-livre-jeunesse-inspirant?variant=56791621042508" class="adv-card reveal-up delay-1" target="_blank" rel="noopener" style="text-decoration:none">
+      <div class="adv-bg adv-bg-1">👑</div>
+      <div class="adv-overlay">
+        <p class="adv-num">Aventure I — Disponible</p>
+        <p class="adv-title">Narimane et les Cheveux Magiques</p>
+        <p class="adv-tag">✦ Confiance en soi &nbsp;→ Commander</p>
+      </div>
+    </a>
+    <div class="adv-card adv-card-soon reveal-up delay-2">
+      <div class="adv-bg adv-bg-2" style="filter:brightness(0.4) saturate(0.3)">🪞</div>
+      <div class="adv-soon-badge">Bientôt</div>
+      <div class="adv-overlay">
+        <p class="adv-num">Aventure II</p>
+        <p class="adv-title" style="color:rgba(255,255,255,0.4)">Narimane et le Miroir Enchanté</p>
+        <p class="adv-tag" style="color:rgba(240,201,106,0.3)">✦ Acceptation de soi</p>
+      </div>
+    </div>
+    <div class="adv-card adv-card-soon reveal-up delay-3">
+      <div class="adv-bg adv-bg-3" style="filter:brightness(0.4) saturate(0.3)">⭐</div>
+      <div class="adv-soon-badge">Bientôt</div>
+      <div class="adv-overlay">
+        <p class="adv-num">Aventure III</p>
+        <p class="adv-title" style="color:rgba(255,255,255,0.4)">Narimane et la Forêt des Étoiles</p>
+        <p class="adv-tag" style="color:rgba(240,201,106,0.3)">✦ Courage</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEMOIGNAGES -->
+<section class="section-dark" style="padding-top:2rem">
+  <div class="section-heading reveal-up">
+    <span class="section-tag">✦ Avis des familles</span>
+    <h2 class="section-h2">Les premières familles<br>ont adoré Narimane.</h2>
+  </div>
+  <div style="text-align:center;max-width:600px;margin:0 auto;padding:3rem 2rem;border:1px solid rgba(240,201,106,0.1);border-radius:24px;background:rgba(107,47,160,0.08)" class="reveal-up">
+    <div style="font-size:3rem;margin-bottom:1.5rem">✨</div>
+    <p style="font-size:1rem;color:rgba(255,253,247,0.55);line-height:1.8;font-style:italic">Les avis de nos premières familles arrivent bientôt.<br>Suivez-nous sur Instagram et TikTok pour découvrir leurs retours.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;margin-top:2rem">
+      <a href="https://www.instagram.com/bd_princesse_narimane?igsh=d3NiYTBlemdhb2Yx" class="btn-glow" style="padding:0.7rem 1.8rem;font-size:0.82rem" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.tiktok.com/@laprincessenarimane" class="btn-ghost" style="padding:0.7rem 1.8rem;font-size:0.82rem" target="_blank" rel="noopener">TikTok</a>
+    </div>
+  </div>
+</section>
+
+<!-- PARTENARIATS -->
+<section class="section-dark" id="partenariats" style="padding-top:2rem">
+  <div class="section-heading reveal-up">
+    <span class="section-tag">✦ Pour les institutions</span>
+    <h2 class="section-h2">Narimane entre dans<br>vos établissements.</h2>
+  </div>
+  <div class="partenariat-grid">
+    <div class="part-card reveal-up delay-1">
+      <div style="font-size:2.2rem">🏫</div>
+      <h3>Écoles</h3>
+      <p>Ateliers lecture, travail sur les émotions, développement de l'imaginaire</p>
+    </div>
+    <div class="part-card reveal-up delay-2">
+      <div style="font-size:2.2rem">📖</div>
+      <h3>Médiathèques</h3>
+      <p>Lectures collectives, animations jeunesse, événements culturels</p>
+    </div>
+    <div class="part-card reveal-up delay-3">
+      <div style="font-size:2.2rem">🤝</div>
+      <h3>Associations</h3>
+      <p>Accompagnement familial, ateliers éducatifs, activités culturelles</p>
+    </div>
+    <div class="part-card reveal-up delay-4">
+      <div style="font-size:2.2rem">👩‍🏫</div>
+      <h3>Professionnels</h3>
+      <p>Support pédagogique, émotionnel et culturel certifié</p>
+    </div>
+  </div>
+  <div style="text-align:center" class="reveal-up">
+    <p style="font-size:0.9rem;color:rgba(255,253,247,0.5);margin-bottom:1.5rem">Pour toute demande de partenariat, commandes groupées ou intervention :</p>
+    <a href="mailto:direction.laprincessenarimane@gmail.com" class="btn-glow">✉ direction.laprincessenarimane@gmail.com</a>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-universe">
+  <div class="ring-deco"></div>
+  <div class="ring-deco" style="animation-delay:1.3s"></div>
+  <div class="ring-deco" style="animation-delay:2.6s"></div>
+  <h2>Offrez la magie<br>à votre enfant.</h2>
+  <p>Un livre qui transforme les lectures du soir en aventures extraordinaires dans un univers unique.</p>
+  <a href="https://lesaventuresdelaprincessenarimane.myshopify.com" class="btn-glow" style="position:relative;z-index:1">✦ Commander maintenant</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="foot-brand">
+      <h3>✦ PRINCESSE NARIMANE</h3>
+      <p>Un univers éducatif et féerique pensé pour inspirer les enfants et rapprocher les familles.</p>
+      <p class="foot-edition">📚 Édition Fourteen Vibes</p>
+    </div>
+    <div class="foot-nav">
+      <h4>Navigation</h4>
+      <ul class="foot-links">
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#aventures">Les aventures</a></li>
+        <li><a href="https://lesaventuresdelaprincessenarimane.myshopify.com">Boutique</a></li>
+        <li><a href="#partenariats">Partenariats</a></li>
+        <li><a href="mailto:direction.laprincessenarimane@gmail.com">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-social">
+      <h4>Nous suivre</h4>
+      <div class="soc-btns">
+        <a href="https://www.instagram.com/bd_princesse_narimane?igsh=d3NiYTBlemdhb2Yx" class="soc" title="Instagram" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f0c96a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="#f0c96a" stroke="none"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@laprincessenarimane" class="soc" title="TikTok" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f0c96a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+        </a>
+      </div>
+      <div style="margin-top:1rem">
+        <p style="font-size:0.72rem;color:rgba(255,255,255,0.3);margin-bottom:0.3rem">Instagram</p>
+        <a href="https://www.instagram.com/bd_princesse_narimane?igsh=d3NiYTBlemdhb2Yx" style="font-size:0.78rem;color:rgba(240,201,106,0.6);text-decoration:none" target="_blank" rel="noopener">@bd_princesse_narimane</a>
+        <p style="font-size:0.72rem;color:rgba(255,255,255,0.3);margin-top:0.5rem;margin-bottom:0.3rem">TikTok</p>
+        <a href="https://www.tiktok.com/@laprincessenarimane" style="font-size:0.78rem;color:rgba(240,201,106,0.6);text-decoration:none" target="_blank" rel="noopener">@laprincessenarimane</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p class="foot-copy">© 2026 Les Aventures de la Princesse Narimane — Tous droits réservés</p>
+    <p class="foot-group">Groupe Fourteen Vibes Édition</p>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cursor=document.getElementById('cursor');
+const trail=document.getElementById('cursor-trail');
+let mx=0,my=0,tx=0,ty=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cursor.style.left=mx+'px';cursor.style.top=my+'px';
+});
+(function animTrail(){
+  tx+=(mx-tx)*0.12;ty+=(my-ty)*0.12;
+  trail.style.left=tx+'px';trail.style.top=ty+'px';
+  requestAnimationFrame(animTrail);
+})();
+
+// STARS CANVAS
+const canvas=document.getElementById('stars');
+const ctx=canvas.getContext('2d');
+let W,H,stars=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+resize();window.addEventListener('resize',resize);
+for(let i=0;i<200;i++){
+  stars.push({x:Math.random()*2000,y:Math.random()*2000,r:Math.random()*1.4+0.2,a:Math.random(),s:Math.random()*0.005+0.001});
+}
+let scrollY=0;
+window.addEventListener('scroll',()=>{
+  scrollY=window.scrollY;
+  const img=document.getElementById('parallaxImg');
+  if(img){
+    const progress=Math.min(scrollY/window.innerHeight,1);
+    img.style.opacity=1-progress*1.5;
+    img.style.transform='scale(1.15) translateY('+scrollY*0.25+'px)';
+  }
+});
+(function drawStars(){
+  ctx.clearRect(0,0,W,H);
+  stars.forEach(s=>{
+    s.a+=s.s;
+    const alpha=0.25+0.65*Math.abs(Math.sin(s.a));
+    const px=(s.x+scrollY*0.04)%W;
+    const py=(s.y+scrollY*0.025)%H;
+    ctx.beginPath();ctx.arc(px,py,s.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(240,201,106,'+alpha*0.65+')';ctx.fill();
+    if(s.r>1.2){
+      ctx.fillStyle='rgba(255,253,247,'+alpha*0.85+')';
+      ctx.beginPath();ctx.arc(px,py,s.r*0.35,0,Math.PI*2);ctx.fill();
+    }
+  });
+  requestAnimationFrame(drawStars);
+})();
+
+// PARTICLES
+const container=document.getElementById('particles');
+function spawnParticle(){
+  const p=document.createElement('div');
+  p.className='floating-particle';
+  const size=Math.random()*5+2;
+  const colors=['rgba(212,168,67,0.75)','rgba(232,131,58,0.65)','rgba(255,253,247,0.5)','rgba(107,47,160,0.65)'];
+  p.style.cssText='width:'+size+'px;height:'+size+'px;left:'+Math.random()*100+'%;background:'+colors[Math.floor(Math.random()*colors.length)]+';animation-duration:'+(Math.random()*8+6)+'s;animation-delay:'+(Math.random()*3)+'s;';
+  container.appendChild(p);
+  setTimeout(()=>p.remove(),(Math.random()*8+6)*1000+3000);
+}
+setInterval(spawnParticle,450);
+for(let i=0;i<12;i++)setTimeout(spawnParticle,i*200);
+
+// SCROLL REVEAL
+const reveals=document.querySelectorAll('.reveal-up');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
+},{threshold:0.08});
+reveals.forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
