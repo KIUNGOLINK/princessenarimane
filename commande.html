@@ -77,9 +77,9 @@ input:focus{outline:2px solid #f0c96a;outline-offset:1px}
   <div class="subtitle">Édition Fourteen Vibes</div>
 
   <div class="card">
-    <div class="price-badge" id="priceBadge">
-      <span>Tarif salon</span>
-      <span>15 €</span>
+    <div class="price-badge show" id="priceBadge">
+      <span id="priceLabel">Tarif</span>
+      <span id="priceValue">18 €</span>
     </div>
     <div class="price-note" id="priceNote">*Tarif spécial valable uniquement sur le salon du jour</div>
 
@@ -135,13 +135,17 @@ var LIEN_STANDARD = "https://pay.sumup.com/b2c/QMUQTR35";
 var DEST_EMAIL = "direction.laprincessenarimane@gmail.com";
 
 if(isSalon){
-  document.getElementById('priceBadge').classList.add('show');
+  document.getElementById('priceLabel').textContent = "Tarif salon";
+  document.getElementById('priceValue').textContent = "15 €";
   document.getElementById('priceNote').classList.add('show');
   document.getElementById('payText').textContent = "Finalisez votre commande (15 € tarif salon) via le paiement sécurisé SumUp.";
   document.getElementById('payBtn').textContent = "Payer 15 € avec SumUp";
   document.getElementById('payBtn').href = LIEN_SALON;
 } else {
-  document.getElementById('payBtn').textContent = "Payer avec SumUp";
+  document.getElementById('priceLabel').textContent = "Tarif";
+  document.getElementById('priceValue').textContent = "18 €";
+  document.getElementById('payText').textContent = "Finalisez votre commande (18 €) via le paiement sécurisé SumUp.";
+  document.getElementById('payBtn').textContent = "Payer 18 € avec SumUp";
   document.getElementById('payBtn').href = LIEN_STANDARD;
 }
 
@@ -169,7 +173,7 @@ async function validerCommande(){
   btn.disabled = true;
 
   var recap =
-    "Commande Princesse Narimane" + (isSalon ? " (Salon - 15€)" : "") + "\n" +
+    "Commande Princesse Narimane" + (isSalon ? " (Salon - 15€)" : " (18€)") + "\n" +
     "-----------------------------------------\n" +
     "Prénom : " + prenom + "\n" +
     "Nom : " + nom + "\n" +
@@ -217,7 +221,7 @@ async function envoyerAuto(d){
         Ville: d.ville,
         Email_client: d.email,
         Telephone: d.tel || "-",
-        Type: isSalon ? "Commande salon (15€)" : "Commande site"
+        Type: isSalon ? "Commande salon (15€)" : "Commande site (18€)"
       })
     });
     return resp.ok;
