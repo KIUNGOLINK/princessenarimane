@@ -96,7 +96,7 @@ input:focus,textarea:focus{outline:2px solid #f0c96a;outline-offset:1px}
   <!-- ÉTAPE 2 : DÉCLENCHEUR LIVRAISON -->
   <div class="card" id="cardTrigger">
     <div class="step-label"><span class="step-num">2</span>Vos informations de livraison</div>
-    <p class="step-desc">Une fois le paiement effectué, indiquez-nous où envoyer votre livre.</p>
+    <p class="step-desc">Une fois le paiement effectué, indiquez-nous où envoyer votre livre. Gardez sous la main la référence de votre paiement (indiquée par SumUp juste après le règlement, ou dans l'email de reçu).</p>
     <button class="btn-glow" onclick="afficherLivraison()">✦ J'ai payé — Indiquer ma livraison</button>
   </div>
 
@@ -130,6 +130,10 @@ input:focus,textarea:focus{outline:2px solid #f0c96a;outline-offset:1px}
       <input id="f-tel" type="tel" placeholder="06 12 34 56 78">
       <label>Instructions de livraison (optionnel)</label>
       <textarea id="f-instructions" placeholder="Ex : laisser chez le gardien, code portail, sonner à l'interphone…"></textarea>
+
+      <label class="req">Référence de votre paiement SumUp</label>
+      <input id="f-reference" placeholder="Ex : numéro de reçu / transaction SumUp">
+      <p class="step-desc" style="margin-top:0.3rem">Elle apparaît sur l'écran de confirmation SumUp juste après le paiement, et dans l'email de reçu envoyé par SumUp.</p>
 
       <button class="btn-glow" onclick="validerLivraison()">Valider mes informations de livraison</button>
       <div class="error" id="err"></div>
@@ -185,11 +189,12 @@ async function validerLivraison(){
   var email = document.getElementById('f-email').value.trim();
   var tel = document.getElementById('f-tel').value.trim();
   var instructions = document.getElementById('f-instructions').value.trim();
+  var reference = document.getElementById('f-reference').value.trim();
   var err = document.getElementById('err');
   var btn = document.querySelector('#livStep1 .btn-glow');
 
-  if(!prenom || !nom || !adresse || !cp || !ville || !email || !tel){
-    err.textContent = "Merci de remplir tous les champs obligatoires (*).";
+  if(!prenom || !nom || !adresse || !cp || !ville || !email || !tel || !reference){
+    err.textContent = "Merci de remplir tous les champs obligatoires (*), y compris la référence de paiement.";
     return;
   }
   if(email.indexOf('@') === -1 || email.indexOf('.') === -1){
@@ -203,6 +208,9 @@ async function validerLivraison(){
   var recap =
     "Livraison — Commande Princesse Narimane" + (isSalon ? " (Salon - 15€)" : " (18€)") + "\n" +
     "-----------------------------------------\n" +
+    "⚠️ À VÉRIFIER dans SumUp avant expédition\n" +
+    "Référence de paiement : " + reference + "\n" +
+    "-----------------------------------------\n" +
     "Prénom : " + prenom + "\n" +
     "Nom : " + nom + "\n" +
     "Adresse : " + adresse + (complement ? " (" + complement + ")" : "") + "\n" +
@@ -214,13 +222,13 @@ async function validerLivraison(){
 
   document.getElementById('summary').textContent = recap;
 
-  var subject = "Livraison — Commande Princesse Narimane" + (isSalon ? " - Salon" : "") + " (" + prenom + " " + nom + ")";
+  var subject = "⚠️ À vérifier — Livraison Commande Princesse Narimane" + (isSalon ? " - Salon" : "") + " (" + prenom + " " + nom + ")";
   document.getElementById('mailBtn').href = "mailto:" + DEST_EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(recap);
 
   document.getElementById('livStep1').hidden = true;
   document.getElementById('livStep2').hidden = false;
 
-  var envoye = await envoyerAuto({prenom, nom, adresse, complement, cp, ville, email, tel, instructions, subject, recap});
+  var envoye = await envoyerAuto({prenom, nom, adresse, complement, cp, ville, email, tel, instructions, reference, subject, recap});
 
   if(envoye){
     document.getElementById('sendLabel').textContent = "✓ Merci ! C'est envoyé";
@@ -242,6 +250,8 @@ async function envoyerAuto(d){
         _subject: d.subject,
         _template: "table",
         _captcha: "false",
+        AVERTISSEMENT: "Vérifiez cette référence dans votre tableau de bord SumUp avant d'expédier",
+        Reference_paiement: d.reference,
         Prenom: d.prenom,
         Nom: d.nom,
         Adresse: d.adresse,
