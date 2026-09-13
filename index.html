@@ -104,6 +104,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;display:
 .testi p{font-size:0.9rem;line-height:1.75;color:rgba(255,253,247,0.65);font-style:italic;margin-bottom:0.8rem}
 .testi-name{font-size:0.72rem;color:#f0c96a;font-weight:700;letter-spacing:0.05em}
 
+/* SOUTIEN */
+.soutien-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;max-width:1150px;margin:0 auto}
+.soutien-card{position:relative;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,rgba(107,47,160,0.18),rgba(20,5,50,0.85));border:1px solid rgba(240,201,106,0.12);transition:all 0.4s cubic-bezier(0.16,1,0.3,1);text-decoration:none;display:block}
+.soutien-card:hover{transform:translateY(-6px);border-color:rgba(240,201,106,0.35);box-shadow:0 18px 45px rgba(212,168,67,0.18)}
+.soutien-photo{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;background:#150a45}
+.soutien-caption{padding:1.1rem 1.2rem 1.3rem}
+.soutien-name{font-family:'Cinzel',serif;font-size:0.85rem;color:#f0c96a;font-weight:600;line-height:1.4;margin-bottom:0.3rem}
+.soutien-role{font-size:0.76rem;color:rgba(255,253,247,0.55);line-height:1.5}
+.soutien-play{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:rgba(3,8,15,0.15);transition:background 0.3s}
+.soutien-card:hover .soutien-play{background:rgba(3,8,15,0.35)}
+.soutien-play-btn{width:52px;height:52px;border-radius:50%;background:rgba(240,201,106,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 0 25px rgba(240,201,106,0.5)}
+.soutien-play-btn::after{content:'';border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent #1a0a00;margin-left:4px}
+
 /* PARTENARIAT */
 .partenariat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;max-width:1000px;margin:0 auto 3rem}
 .part-card{border-radius:18px;overflow:hidden;background:rgba(107,47,160,0.12);border:1px solid rgba(240,201,106,0.1);padding:2rem 1.2rem;text-align:center;transition:all 0.3s}
@@ -191,6 +204,7 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
   .nav-links a{font-size:1.05rem}
   .section-dark{padding:5rem 1.5rem}
   .cards-world,.adventures-row,.partenariat-grid,.testimonials-dark{grid-template-columns:1fr}
+  .soutien-grid{grid-template-columns:1fr 1fr;gap:1rem}
   .hero-content{padding:1rem}
   .cta-universe{padding:6rem 2rem}
   footer{padding:2.5rem 1.5rem 1.5rem}
@@ -220,6 +234,7 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
     <li><a href="#univers">L'univers</a></li>
     <li><a href="#aventures">Aventures</a></li>
     <li><a href="#partenariats">Partenariats</a></li>
+    <li><a href="#soutien">Soutien</a></li>
   </ul>
   <a href="commande.html" class="nav-btn">Commander ✦</a>
   <button class="nav-burger" id="navBurger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
@@ -366,6 +381,45 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
   </div>
 </section>
 
+<!-- MERCI POUR VOTRE SOUTIEN -->
+<section class="section-dark" id="soutien" style="padding-top:2rem">
+  <div class="section-heading reveal-up">
+    <span class="section-tag">✦ Reconnaissance</span>
+    <h2 class="section-h2">Merci pour<br>votre soutien.</h2>
+  </div>
+  <div class="soutien-grid">
+    <div class="soutien-card reveal-up delay-1">
+      <img src="images/soutien-bally-bagayoko.jpg" alt="Julia et Maxime Koumba avec Bally Bagayoko, Maire de Saint-Denis" class="soutien-photo" loading="lazy">
+      <div class="soutien-caption">
+        <div class="soutien-name">Bally Bagayoko</div>
+        <div class="soutien-role">Maire de Saint-Denis</div>
+      </div>
+    </div>
+    <div class="soutien-card reveal-up delay-2">
+      <img src="images/soutien-gilbert-loimon.jpg" alt="Gilbert Loimon, adjoint au Maire de Saint-Denis" class="soutien-photo" loading="lazy">
+      <div class="soutien-caption">
+        <div class="soutien-name">Gilbert Loimon</div>
+        <div class="soutien-role">Adjoint au Maire de Saint-Denis</div>
+      </div>
+    </div>
+    <div class="soutien-card reveal-up delay-3">
+      <img src="images/soutien-delegation-congolaise.jpg" alt="Julia et Maxime Koumba avec la délégation congolaise, Marché de Noël congolais 2025" class="soutien-photo" loading="lazy">
+      <div class="soutien-caption">
+        <div class="soutien-name">Délégation congolaise</div>
+        <div class="soutien-role">Marché de Noël congolais — Décembre 2025</div>
+      </div>
+    </div>
+    <a href="https://www.youtube.com/live/CTb30ttODHE?is=1TMxPymxTIUSovt0" class="soutien-card reveal-up delay-4" target="_blank" rel="noopener">
+      <img src="https://img.youtube.com/vi/CTb30ttODHE/hqdefault.jpg" alt="Interview de Princesse Narimane sur Radio Arts Mada" class="soutien-photo" loading="lazy">
+      <div class="soutien-play"><div class="soutien-play-btn"></div></div>
+      <div class="soutien-caption">
+        <div class="soutien-name">Radio Arts Mada</div>
+        <div class="soutien-role">Notre passage à la radio ▸</div>
+      </div>
+    </a>
+  </div>
+</section>
+
 <!-- CTA -->
 <section class="cta-universe">
   <div class="ring-deco"></div>
@@ -391,6 +445,7 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
         <li><a href="#aventures">Les aventures</a></li>
         <li><a href="commande.html">Boutique</a></li>
         <li><a href="#partenariats">Partenariats</a></li>
+        <li><a href="#soutien">Soutien</a></li>
         <li><a href="mailto:direction.laprincessenarimane@gmail.com">Contact</a></li>
       </ul>
     </div>
