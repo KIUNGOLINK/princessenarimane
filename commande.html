@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Commander - Princesse Narimane</title>
+<title>Commander, Princesse Narimane</title>
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -98,7 +98,7 @@ input:focus,textarea:focus{outline:2px solid #f0c96a;outline-offset:1px}
   <div class="card" id="cardTrigger">
     <div class="step-label"><span class="step-num">2</span>Vos informations de livraison</div>
     <p class="step-desc">Une fois le paiement effectué, indiquez-nous où envoyer votre livre. Gardez sous la main la référence de votre paiement (indiquée par SumUp juste après le règlement, ou dans l'email de reçu).</p>
-    <button class="btn-glow" onclick="afficherLivraison()"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> J'ai payé - Indiquer ma livraison</button>
+    <button class="btn-glow" onclick="afficherLivraison()"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> J'ai payé, Indiquer ma livraison</button>
   </div>
 
   <!-- ÉTAPE 2bis : FORMULAIRE LIVRAISON -->
@@ -207,7 +207,7 @@ async function validerLivraison(){
   btn.disabled = true;
 
   var recap =
-    "Livraison - Commande Princesse Narimane" + (isSalon ? " (Salon - 15€)" : " (18€)") + "\n" +
+    "Livraison, Commande Princesse Narimane" + (isSalon ? " (Salon - 15€)" : " (18€)") + "\n" +
     "-----------------------------------------\n" +
     "⚠️ À VÉRIFIER dans SumUp avant expédition\n" +
     "Référence de paiement : " + reference + "\n" +
@@ -223,7 +223,7 @@ async function validerLivraison(){
 
   document.getElementById('summary').textContent = recap;
 
-  var subject = "⚠️ À vérifier - Livraison Commande Princesse Narimane" + (isSalon ? " - Salon" : "") + " (" + prenom + " " + nom + ")";
+  var subject = "⚠️ À vérifier, Livraison Commande Princesse Narimane" + (isSalon ? " - Salon" : "") + " (" + prenom + " " + nom + ")";
   document.getElementById('mailBtn').href = "mailto:" + DEST_EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(recap);
 
   document.getElementById('livStep1').hidden = true;
