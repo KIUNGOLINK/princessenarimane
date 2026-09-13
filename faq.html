@@ -129,10 +129,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;display:
 .btn-glow:hover{transform:translateY(-3px) scale(1.03)}
 
 /* FOOTER */
-footer{position:relative;background:#02040a;padding:3rem 4rem 2rem;border-top:1px solid rgba(240,201,106,0.08)}
+footer{position:relative;background:#02040a;padding:3.5rem 4rem 2rem;border-top:1px solid rgba(240,201,106,0.08)}
+.footer-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:3rem;margin-bottom:3rem}
 .foot-brand h3{font-family:'Cinzel',serif;font-size:1rem;color:#f0c96a;letter-spacing:0.12em;margin-bottom:0.5rem}
-.foot-brand p{font-size:0.78rem;color:rgba(255,255,255,0.35);line-height:1.7}
-.foot-copy{font-size:0.72rem;color:rgba(255,255,255,0.2);letter-spacing:0.05em;text-align:center;margin-top:1.5rem}
+.foot-brand p{font-size:0.78rem;color:rgba(255,255,255,0.35);line-height:1.7;max-width:240px}
+.foot-edition{font-size:0.72rem;color:rgba(240,201,106,0.5);margin-top:0.5rem;letter-spacing:0.05em}
+.foot-nav h4,.foot-social h4{font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:1.2rem}
+.foot-links{list-style:none;display:flex;flex-direction:column;gap:0.6rem}
+.foot-links a{font-size:0.82rem;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.3s;letter-spacing:0.03em}
+.foot-links a:hover{color:#f0c96a}
+.soc-btns{display:flex;gap:0.8rem}
+.soc{width:42px;height:42px;border-radius:50%;border:1px solid rgba(240,201,106,0.18);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all 0.3s;background:rgba(240,201,106,0.04)}
+.soc:hover{background:rgba(240,201,106,0.12);border-color:rgba(240,201,106,0.45);transform:translateY(-2px)}
+.foot-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.foot-copy{font-size:0.72rem;color:rgba(255,255,255,0.2);letter-spacing:0.05em}
+.foot-group{font-family:'Cinzel',serif;font-size:0.65rem;color:rgba(240,201,106,0.3);letter-spacing:0.1em;text-transform:uppercase}
 
 .ic-spark{width:0.75em;height:0.75em;display:inline-block;vertical-align:-0.08em;flex-shrink:0}
 .reveal-up{opacity:0;transform:translateY(35px);transition:all 0.8s cubic-bezier(0.16,1,0.3,1)}
@@ -144,6 +155,8 @@ footer{position:relative;background:#02040a;padding:3rem 4rem 2rem;border-top:1p
   .nav-links{display:flex;flex-direction:column;position:fixed;top:0;right:-100%;width:75%;max-width:320px;height:100vh;background:linear-gradient(180deg,#0b0518,#03080f);padding:6rem 2rem 2rem;gap:1.8rem;transition:right .35s ease;z-index:99;box-shadow:-10px 0 40px rgba(0,0,0,.5)}
   .nav-links.open{right:0}
   .nav-links a{font-size:1.05rem}
+  footer{padding:2.5rem 1.5rem 1.5rem}
+  .footer-top{flex-direction:column;gap:2rem}
   .section-dark{padding:1.5rem 1.5rem 3.5rem}
   .page-hero{padding:7rem 1.5rem 3rem}
   .faq-item summary{padding:1.1rem 1.3rem;font-size:0.86rem}
@@ -158,10 +171,8 @@ footer{position:relative;background:#02040a;padding:3rem 4rem 2rem;border-top:1p
   <ul class="nav-links" id="navLinks">
     <li><a href="index.html#univers">L'univers</a></li>
     <li><a href="index.html#aventures">Aventures</a></li>
-    <li><a href="index.html#partenariats">Partenariats</a></li>
     <li><a href="index.html#soutien">Soutien</a></li>
     <li><a href="about.html">À propos</a></li>
-    <li><a href="faq.html" class="active">FAQ</a></li>
   </ul>
   <a href="commande.html" class="nav-btn">Commander</a>
   <button class="nav-burger" id="navBurger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
@@ -223,11 +234,47 @@ footer{position:relative;background:#02040a;padding:3rem 4rem 2rem;border-top:1p
 </section>
 
 <footer>
-  <div class="foot-brand" style="text-align:center;max-width:400px;margin:0 auto">
-    <h3><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> PRINCESSE NARIMANE</h3>
-    <p>Un univers éducatif et féerique pensé pour inspirer les enfants et rapprocher les familles. Édition Fourteen Vibes.</p>
+  <div class="footer-top">
+    <div class="foot-brand">
+      <h3><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> PRINCESSE NARIMANE</h3>
+      <p>Un univers éducatif et féerique pensé pour inspirer les enfants et rapprocher les familles.</p>
+      <p class="foot-edition">📚 Édition Fourteen Vibes</p>
+    </div>
+    <div class="foot-nav">
+      <h4>Explorer</h4>
+      <ul class="foot-links">
+        <li><a href="index.html#accueil">Accueil</a></li>
+        <li><a href="index.html#univers">L'univers</a></li>
+        <li><a href="index.html#aventures">Aventures</a></li>
+        <li><a href="index.html#partenariats">Partenariats</a></li>
+        <li><a href="index.html#soutien">Soutien</a></li>
+      </ul>
+    </div>
+    <div class="foot-nav">
+      <h4>Informations</h4>
+      <ul class="foot-links">
+        <li><a href="about.html">À propos</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="commande.html">Boutique</a></li>
+        <li><a href="mailto:direction.laprincessenarimane@gmail.com">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-social">
+      <h4>Nous suivre</h4>
+      <div class="soc-btns">
+        <a href="https://www.instagram.com/bd_princesse_narimane?igsh=d3NiYTBlemdhb2Yx" class="soc" title="Instagram" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f0c96a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="#f0c96a" stroke="none"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@laprincessenarimane" class="soc" title="TikTok" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f0c96a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+        </a>
+      </div>
+    </div>
   </div>
-  <p class="foot-copy">© 2026 Les Aventures de la Princesse Narimane, Tous droits réservés</p>
+  <div class="foot-bottom">
+    <p class="foot-copy">© 2026 Les Aventures de la Princesse Narimane, Tous droits réservés</p>
+    <p class="foot-group">Groupe Fourteen Vibes Édition</p>
+  </div>
 </footer>
 
 <script>
