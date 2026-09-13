@@ -112,17 +112,17 @@ input:focus{outline:2px solid #f0c96a;outline-offset:1px}
     </div>
 
     <div id="step2" hidden>
-      <div class="step-label">Étape 2 — Envoyer mes coordonnées</div>
-      <p style="font-size:0.85rem;color:rgba(255,253,247,0.55);margin-top:-0.4rem">Touchez le bouton ci-dessous : votre application mail va s'ouvrir avec votre commande déjà rédigée, il vous suffit d'appuyer sur « Envoyer ».</p>
+      <div class="step-label" id="sendLabel">Étape 2 — Envoi de vos coordonnées</div>
+      <p style="font-size:0.85rem;color:rgba(255,253,247,0.55);margin-top:-0.4rem" id="sendText">Envoi en cours…</p>
       <div class="summary" id="summary"></div>
-      <a class="btn-glow" id="mailBtn" href="#">✉ Envoyer mes coordonnées par email</a>
-      <button class="btn-ghost" onclick="copierResume()">Copier le récapitulatif</button>
+      <a class="btn-glow" id="mailBtn" href="#" hidden>✉ Envoyer mes coordonnées par email</a>
+      <button class="btn-ghost" onclick="copierResume()" id="copyBtn" hidden>Copier le récapitulatif</button>
 
       <div class="step-label" style="margin-top:1.6rem">Étape 3 — Régler la commande</div>
       <p style="font-size:0.85rem;color:rgba(255,253,247,0.55);margin-top:-0.4rem" id="payText">Finalisez votre commande via le paiement sécurisé SumUp.</p>
       <a class="btn-glow" id="payBtn" href="#" target="_blank" rel="noopener">Payer avec SumUp</a>
 
-      <div class="hint">Un souci pour envoyer l'email ? Montrez simplement cet écran au stand Princesse Narimane 👑</div>
+      <div class="hint">Un souci ? Montrez simplement cet écran au stand Princesse Narimane 👑</div>
     </div>
   </div>
 </div>
@@ -132,6 +132,7 @@ var params = new URLSearchParams(window.location.search);
 var isSalon = params.get('salon') === '1' || params.get('salon') === 'true';
 var LIEN_SALON = "https://pay.sumup.com/b2c/QHOJDDGN";
 var LIEN_STANDARD = "https://pay.sumup.com/b2c/QMUQTR35";
+var DEST_EMAIL = "direction.laprincessenarimane@gmail.com";
 
 if(isSalon){
   document.getElementById('priceBadge').classList.add('show');
@@ -144,7 +145,7 @@ if(isSalon){
   document.getElementById('payBtn').href = LIEN_STANDARD;
 }
 
-function validerCommande(){
+async function validerCommande(){
   var prenom = document.getElementById('f-prenom').value.trim();
   var nom = document.getElementById('f-nom').value.trim();
   var adresse = document.getElementById('f-adresse').value.trim();
@@ -153,6 +154,7 @@ function validerCommande(){
   var email = document.getElementById('f-email').value.trim();
   var tel = document.getElementById('f-tel').value.trim();
   var err = document.getElementById('err');
+  var btn = document.querySelector('#step1 .btn-glow');
 
   if(!prenom || !nom || !adresse || !cp || !ville || !email){
     err.textContent = "Merci de remplir tous les champs obligatoires (*).";
@@ -163,6 +165,8 @@ function validerCommande(){
     return;
   }
   err.textContent = "";
+  btn.textContent = "Envoi en cours…";
+  btn.disabled = true;
 
   var recap =
     "Commande Princesse Narimane" + (isSalon ? " (Salon - 15€)" : "") + "\n" +
@@ -177,13 +181,49 @@ function validerCommande(){
 
   document.getElementById('summary').textContent = recap;
 
-  var subject = encodeURIComponent("Commande Princesse Narimane" + (isSalon ? " - Salon" : "") + " (" + prenom + " " + nom + ")");
-  var body = encodeURIComponent(recap);
-  document.getElementById('mailBtn').href = "mailto:direction.laprincessenarimane@gmail.com?subject=" + subject + "&body=" + body;
+  var subject = "Commande Princesse Narimane" + (isSalon ? " - Salon" : "") + " (" + prenom + " " + nom + ")";
+  document.getElementById('mailBtn').href = "mailto:" + DEST_EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(recap);
 
   document.getElementById('step1').hidden = true;
   document.getElementById('step2').hidden = false;
   window.scrollTo({top:0, behavior:'smooth'});
+
+  var envoye = await envoyerAuto({prenom, nom, adresse, cp, ville, email, tel, subject, recap});
+
+  if(envoye){
+    document.getElementById('sendLabel').textContent = "✓ Coordonnées envoyées";
+    document.getElementById('sendText').textContent = "Vos coordonnées ont été transmises automatiquement à Princesse Narimane. Il ne reste plus qu'à régler votre commande.";
+  } else {
+    document.getElementById('sendLabel').textContent = "Étape 2 — Envoyer mes coordonnées";
+    document.getElementById('sendText').textContent = "L'envoi automatique n'a pas fonctionné. Touchez le bouton ci-dessous : votre application mail va s'ouvrir avec votre commande déjà rédigée, il vous suffit d'appuyer sur « Envoyer ».";
+    document.getElementById('mailBtn').hidden = false;
+    document.getElementById('copyBtn').hidden = false;
+  }
+}
+
+async function envoyerAuto(d){
+  try{
+    var resp = await fetch("https://formsubmit.co/ajax/" + DEST_EMAIL, {
+      method: "POST",
+      headers: {"Content-Type":"application/json","Accept":"application/json"},
+      body: JSON.stringify({
+        _subject: d.subject,
+        _template: "table",
+        _captcha: "false",
+        Prenom: d.prenom,
+        Nom: d.nom,
+        Adresse: d.adresse,
+        Code_postal: d.cp,
+        Ville: d.ville,
+        Email_client: d.email,
+        Telephone: d.tel || "-",
+        Type: isSalon ? "Commande salon (15€)" : "Commande site"
+      })
+    });
+    return resp.ok;
+  }catch(e){
+    return false;
+  }
 }
 
 function copierResume(){
