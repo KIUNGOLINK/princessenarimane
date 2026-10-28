@@ -263,6 +263,7 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
 @media(max-width:1024px){
   nav{padding:1.1rem 2rem}
   .cards-world,.adventures-row{gap:1.4rem}
+  .soutien-grid{grid-template-columns:repeat(2,1fr);gap:1.2rem}
 }
 
 /* MOBILE */
@@ -605,24 +606,30 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
 </footer>
 
 <script>
+// PRÉFÉRENCES DE L'APPAREIL (une seule fois, réutilisées partout pour la fluidité)
+const prefersReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isCoarsePointer=window.matchMedia('(pointer: coarse)').matches;
+
 // CURSOR
 const cursor=document.getElementById('cursor');
 const trail=document.getElementById('cursor-trail');
-if (window.matchMedia('(pointer: coarse)').matches) {
+if (isCoarsePointer) {
   document.body.style.cursor = 'auto';
   cursor.style.display = 'none';
   trail.style.display = 'none';
 }
 let mx=0,my=0,tx=0,ty=0;
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX;my=e.clientY;
-  cursor.style.left=mx+'px';cursor.style.top=my+'px';
-});
-(function animTrail(){
-  tx+=(mx-tx)*0.12;ty+=(my-ty)*0.12;
-  trail.style.left=tx+'px';trail.style.top=ty+'px';
-  requestAnimationFrame(animTrail);
-})();
+if(!isCoarsePointer && !prefersReducedMotion){
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    cursor.style.left=mx+'px';cursor.style.top=my+'px';
+  },{passive:true});
+  (function animTrail(){
+    tx+=(mx-tx)*0.12;ty+=(my-ty)*0.12;
+    trail.style.left=tx+'px';trail.style.top=ty+'px';
+    requestAnimationFrame(animTrail);
+  })();
+}
 
 // STARS CANVAS
 const canvas=document.getElementById('stars');
@@ -634,17 +641,24 @@ const starCount=window.innerWidth<768?90:200;
 for(let i=0;i<starCount;i++){
   stars.push({x:Math.random()*2000,y:Math.random()*2000,r:Math.random()*1.4+0.2,a:Math.random(),s:Math.random()*0.005+0.001});
 }
-let scrollY=0;
-window.addEventListener('scroll',()=>{
-  scrollY=window.scrollY;
+
+// PARALLAX AU SCROLL, lissé via requestAnimationFrame (évite les à-coups pendant un scroll rapide, surtout mobile)
+let scrollY=window.scrollY,scrollTicking=false;
+function applyScrollEffects(){
   const img=document.getElementById('parallaxImg');
   if(img){
     const progress=Math.min(scrollY/window.innerHeight,1);
     img.style.opacity=1-progress*1.5;
     img.style.transform='scale(1.15) translateY('+scrollY*0.25+'px)';
   }
-});
-(function drawStars(){
+  scrollTicking=false;
+}
+window.addEventListener('scroll',()=>{
+  scrollY=window.scrollY;
+  if(!scrollTicking){requestAnimationFrame(applyScrollEffects);scrollTicking=true;}
+},{passive:true});
+
+function drawStarsFrame(){
   ctx.clearRect(0,0,W,H);
   stars.forEach(s=>{
     s.a+=s.s;
@@ -658,10 +672,14 @@ window.addEventListener('scroll',()=>{
       ctx.beginPath();ctx.arc(px,py,s.r*0.35,0,Math.PI*2);ctx.fill();
     }
   });
-  requestAnimationFrame(drawStars);
-})();
+}
+if(prefersReducedMotion){
+  drawStarsFrame();
+}else{
+  (function drawStars(){drawStarsFrame();requestAnimationFrame(drawStars);})();
+}
 
-// PARTICLES
+// PARTICLES (désactivées si mouvement réduit demandé, allégées sur mobile pour la fluidité du scroll)
 const container=document.getElementById('particles');
 function spawnParticle(){
   const p=document.createElement('div');
@@ -672,8 +690,12 @@ function spawnParticle(){
   container.appendChild(p);
   setTimeout(()=>p.remove(),(Math.random()*8+6)*1000+3000);
 }
-setInterval(spawnParticle,450);
-for(let i=0;i<12;i++)setTimeout(spawnParticle,i*200);
+if(!prefersReducedMotion){
+  const particleInterval=isCoarsePointer?900:450;
+  const particleBurst=isCoarsePointer?6:12;
+  setInterval(spawnParticle,particleInterval);
+  for(let i=0;i<particleBurst;i++)setTimeout(spawnParticle,i*200);
+}
 
 // SCROLL REVEAL
 const reveals=document.querySelectorAll('.reveal-up');
@@ -722,7 +744,7 @@ if(burger&&navLinks){
 }
 
 // EFFET 3D AU SURVOL (desktop uniquement, respecte le mouvement réduit)
-if(!window.matchMedia('(pointer: coarse)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+if(!isCoarsePointer && !prefersReducedMotion){
   document.querySelectorAll('.world-card,.adv-card').forEach(card=>{
     card.addEventListener('mousemove',e=>{
       const r=card.getBoundingClientRect();
