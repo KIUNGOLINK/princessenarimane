@@ -278,6 +278,27 @@ const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
 },{threshold:0.08});
 reveals.forEach(el=>obs.observe(el));
+
+// NAV CTA ADAPTATIF : dès qu'on lit la page, le bouton du menu pousse vers la commande
+const navBtnEl=document.querySelector('.nav-btn');
+if(navBtnEl){
+  const navDefaultHref=navBtnEl.getAttribute('href');
+  const navDefaultHtml=navBtnEl.innerHTML;
+  let navBuyMode=false;
+  window.addEventListener('scroll',()=>{
+    const shouldBuy=window.scrollY>420;
+    if(shouldBuy!==navBuyMode){
+      navBuyMode=shouldBuy;
+      if(navBuyMode){
+        navBtnEl.setAttribute('href','commande.html');
+        navBtnEl.innerHTML='Commander · 18 €';
+      }else{
+        navBtnEl.setAttribute('href',navDefaultHref);
+        navBtnEl.innerHTML=navDefaultHtml;
+      }
+    }
+  },{passive:true});
+}
 </script>
 </body>
 </html>

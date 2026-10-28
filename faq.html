@@ -231,6 +231,7 @@ footer{position:relative;background:#02040a;padding:3.5rem 4rem 2rem;border-top:
   <h2>Une autre question ?<br>Écrivez-nous.</h2>
   <p>Notre équipe vous répond avec plaisir par email ou sur les réseaux sociaux.</p>
   <a href="mailto:direction.laprincessenarimane@gmail.com" class="btn-glow">Nous contacter</a>
+  <p style="margin-top:1.4rem;position:relative;z-index:1"><a href="commande.html" style="color:rgba(240,201,106,0.7);font-size:0.86rem;text-decoration:none;font-weight:700">Convaincu(e) ? Commander maintenant — 18 € →</a></p>
 </section>
 
 <footer>
@@ -299,6 +300,27 @@ const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
 },{threshold:0.08});
 reveals.forEach(el=>obs.observe(el));
+
+// NAV CTA ADAPTATIF : dès qu'on lit la page, le bouton du menu pousse vers la commande
+const navBtnEl=document.querySelector('.nav-btn');
+if(navBtnEl){
+  const navDefaultHref=navBtnEl.getAttribute('href');
+  const navDefaultHtml=navBtnEl.innerHTML;
+  let navBuyMode=false;
+  window.addEventListener('scroll',()=>{
+    const shouldBuy=window.scrollY>420;
+    if(shouldBuy!==navBuyMode){
+      navBuyMode=shouldBuy;
+      if(navBuyMode){
+        navBtnEl.setAttribute('href','commande.html');
+        navBtnEl.innerHTML='Commander · 18 €';
+      }else{
+        navBtnEl.setAttribute('href',navDefaultHref);
+        navBtnEl.innerHTML=navDefaultHtml;
+      }
+    }
+  },{passive:true});
+}
 </script>
 </body>
 </html>

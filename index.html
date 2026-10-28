@@ -111,12 +111,39 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;display:
 .pv-price strong{font-family:'Cinzel Decorative',serif;font-weight:900;font-size:1.9rem;color:#f0c96a}
 .pv-price span{font-size:0.78rem;color:rgba(255,253,247,0.4)}
 .pv-ctas{display:flex;gap:1rem;flex-wrap:wrap}
+.pv-lead{text-align:center;font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.3em;color:rgba(240,201,106,0.5);text-transform:uppercase;margin-bottom:2.8rem}
+.pv-nudge{margin-top:1.4rem;font-size:0.84rem}
+.pv-nudge a{color:rgba(240,201,106,0.65);text-decoration:none}
+.pv-nudge a:hover{color:#f0c96a}
+#navCtaSentinel{height:1px}
 
 /* SECTIONS */
 .section-dark{position:relative;z-index:2;padding:7rem 4rem;background:linear-gradient(180deg,#03080f 0%,#0a0320 50%,#03080f 100%)}
 .section-heading{text-align:center;margin-bottom:4.5rem}
 .section-tag{font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.35em;color:#f0c96a;text-transform:uppercase;display:block;margin-bottom:1rem}
 .section-h2{font-family:'Cinzel Decorative',serif;font-size:clamp(1.6rem,3.5vw,2.8rem);background:linear-gradient(135deg,#fff 20%,#f0c96a 50%,#fff 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;line-height:1.25}
+.section-nudge{text-align:center;margin-top:3rem;font-size:0.92rem;color:rgba(255,253,247,0.55)}
+.section-nudge a{color:#f0c96a;text-decoration:none;font-weight:700;border-bottom:1px solid rgba(240,201,106,0.3)}
+.section-nudge a:hover{border-color:#f0c96a}
+
+/* MINI FAQ */
+.mini-faq-list{max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:0.9rem}
+.mini-faq-item{border-radius:14px;background:linear-gradient(135deg,rgba(107,47,160,0.14),rgba(20,5,50,0.8));border:1px solid rgba(240,201,106,0.14);overflow:hidden}
+.mini-faq-item summary{list-style:none;cursor:pointer;padding:1.1rem 1.4rem;font-family:'Cinzel',serif;font-size:0.86rem;color:#fdf3dc;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.mini-faq-item summary::-webkit-details-marker{display:none}
+.mini-faq-item summary::after{content:'+';font-family:'Nunito',sans-serif;font-size:1.3rem;color:#f0c96a;flex-shrink:0;transition:transform 0.3s}
+.mini-faq-item[open] summary::after{transform:rotate(45deg)}
+.mini-faq-item[open] summary{border-bottom:1px solid rgba(240,201,106,0.14)}
+.mini-faq-item .faq-answer{padding:0 1.4rem 1.2rem;font-size:0.86rem;line-height:1.75;color:rgba(255,253,247,0.65)}
+
+/* PARTNER STRIP (B2B, discret) */
+.partner-strip{position:relative;z-index:2;padding:3rem 4rem;background:#02040a;border-top:1px solid rgba(240,201,106,0.08);border-bottom:1px solid rgba(240,201,106,0.08)}
+.partner-strip-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem}
+.partner-strip-text{max-width:560px}
+.partner-strip-text span{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.25em;color:rgba(240,201,106,0.5);text-transform:uppercase;display:block;margin-bottom:0.5rem}
+.partner-strip-text p{font-size:0.85rem;color:rgba(255,253,247,0.5);line-height:1.6}
+.partner-pills{display:flex;gap:0.6rem;flex-wrap:wrap}
+.partner-pill{font-size:0.72rem;color:rgba(255,253,247,0.55);background:rgba(240,201,106,0.06);border:1px solid rgba(240,201,106,0.16);border-radius:50px;padding:0.4rem 0.9rem}
 
 /* CARDS */
 .cards-world{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1050px;margin:0 auto}
@@ -265,6 +292,10 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
   .footer-top{flex-direction:column;gap:2rem}
   #cursor,#cursor-trail{display:none}
   body{cursor:auto}
+  .partner-strip{padding:2.2rem 1.5rem}
+  .partner-strip-inner{flex-direction:column;align-items:flex-start}
+  .mini-faq-item summary{padding:1rem 1.2rem;font-size:0.82rem}
+  .mini-faq-item .faq-answer{padding:0 1.2rem 1.1rem}
 }
 
 /* PETITS ÉCRANS */
@@ -326,7 +357,8 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
 </section>
 
 <!-- PRODUIT VEDETTE -->
-<section class="pv-section">
+<section class="pv-section" id="produit">
+  <p class="pv-lead reveal-up">✦ Cette histoire est devenue un livre ✦</p>
   <div class="pv-wrap">
     <a href="livre.html" class="pv-cover reveal-up">
       <span class="pv-flag">Disponible</span>
@@ -350,8 +382,10 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
         <a href="commande.html" class="btn-glow"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> Commander maintenant</a>
         <a href="livre.html" class="btn-ghost">Voir la fiche complète</a>
       </div>
+      <p class="pv-nudge"><a href="#univers">Découvrir l'univers qui a inspiré cette histoire ↓</a></p>
     </div>
   </div>
+  <div id="navCtaSentinel" aria-hidden="true"></div>
 </section>
 
 <!-- UNIVERS -->
@@ -380,6 +414,7 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
       <p>Un univers riche d'influences culturelles africaines, marchés colorés, contes au coin du feu, sagesse des anciens.</p>
     </div>
   </div>
+  <p class="section-nudge reveal-up">Cette magie tient dans un seul livre. <a href="livre.html">Découvrir Narimane et les Cheveux Magiques →</a></p>
 </section>
 
 <!-- AVENTURES -->
@@ -416,63 +451,16 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
       </div>
     </div>
   </div>
-</section>
-
-<!-- TEMOIGNAGES -->
-<section class="section-dark" style="padding-top:2rem">
-  <div class="section-heading reveal-up">
-    <span class="section-tag"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> Avis des familles</span>
-    <h2 class="section-h2">Les premières familles<br>ont adoré Narimane.</h2>
-  </div>
-  <div style="text-align:center;max-width:600px;margin:0 auto;padding:3rem 2rem;border:1px solid rgba(240,201,106,0.1);border-radius:24px;background:rgba(107,47,160,0.08)" class="reveal-up">
-    <div style="font-size:3rem;margin-bottom:1.5rem">✨</div>
-    <p style="font-size:1rem;color:rgba(255,253,247,0.55);line-height:1.8;font-style:italic">Les avis de nos premières familles arrivent bientôt.<br>Suivez-nous sur Instagram et TikTok pour découvrir leurs retours.</p>
-    <div style="display:flex;gap:1rem;justify-content:center;margin-top:2rem">
-      <a href="https://www.instagram.com/bd_princesse_narimane?igsh=d3NiYTBlemdhb2Yx" class="btn-glow" style="padding:0.7rem 1.8rem;font-size:0.82rem" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://www.tiktok.com/@laprincessenarimane" class="btn-ghost" style="padding:0.7rem 1.8rem;font-size:0.82rem" target="_blank" rel="noopener">TikTok</a>
-    </div>
+  <div style="text-align:center;margin-top:3.5rem" class="reveal-up">
+    <a href="commande.html" class="btn-glow"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> Commencer l'aventure — 18 €</a>
   </div>
 </section>
 
-<!-- PARTENARIATS -->
-<section class="section-dark" id="partenariats" style="padding-top:2rem">
-  <div class="section-heading reveal-up">
-    <span class="section-tag"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> Pour les institutions</span>
-    <h2 class="section-h2">Narimane entre dans<br>vos établissements.</h2>
-  </div>
-  <div class="partenariat-grid">
-    <div class="part-card reveal-up delay-1">
-      <div style="font-size:2.2rem">🏫</div>
-      <h3>Écoles</h3>
-      <p>Ateliers lecture, travail sur les émotions, développement de l'imaginaire</p>
-    </div>
-    <div class="part-card reveal-up delay-2">
-      <div style="font-size:2.2rem">📖</div>
-      <h3>Médiathèques</h3>
-      <p>Lectures collectives, animations jeunesse, événements culturels</p>
-    </div>
-    <div class="part-card reveal-up delay-3">
-      <div style="font-size:2.2rem">🤝</div>
-      <h3>Associations</h3>
-      <p>Accompagnement familial, ateliers éducatifs, activités culturelles</p>
-    </div>
-    <div class="part-card reveal-up delay-4">
-      <div style="font-size:2.2rem">👩‍🏫</div>
-      <h3>Professionnels</h3>
-      <p>Support pédagogique, émotionnel et culturel certifié</p>
-    </div>
-  </div>
-  <div style="text-align:center" class="reveal-up">
-    <p style="font-size:0.9rem;color:rgba(255,253,247,0.5);margin-bottom:1.5rem">Pour toute demande de partenariat, commandes groupées ou intervention :</p>
-    <a href="mailto:direction.laprincessenarimane@gmail.com" class="btn-glow">✉ direction.laprincessenarimane@gmail.com</a>
-  </div>
-</section>
-
-<!-- MERCI POUR VOTRE SOUTIEN -->
+<!-- PREUVE SOCIALE -->
 <section class="section-dark" id="soutien" style="padding-top:2rem">
   <div class="section-heading reveal-up">
-    <span class="section-tag"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> Reconnaissance</span>
-    <h2 class="section-h2">Merci pour<br>votre soutien.</h2>
+    <span class="section-tag"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> Confiance</span>
+    <h2 class="section-h2">Déjà soutenue par des institutions.<br>Bientôt adorée par vos familles.</h2>
   </div>
   <div class="soutien-grid">
     <div class="soutien-card reveal-up delay-1">
@@ -505,6 +493,37 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
       </div>
     </a>
   </div>
+  <div style="text-align:center;max-width:600px;margin:3.5rem auto 0;padding:3rem 2rem;border:1px solid rgba(240,201,106,0.1);border-radius:24px;background:rgba(107,47,160,0.08)" class="reveal-up">
+    <div style="font-size:3rem;margin-bottom:1.5rem">✨</div>
+    <p style="font-size:1rem;color:rgba(255,253,247,0.55);line-height:1.8;font-style:italic">Les avis de nos premières familles arrivent bientôt.<br>Suivez-nous sur Instagram et TikTok pour découvrir leurs retours.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;margin-top:2rem">
+      <a href="https://www.instagram.com/bd_princesse_narimane?igsh=d3NiYTBlemdhb2Yx" class="btn-glow" style="padding:0.7rem 1.8rem;font-size:0.82rem" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.tiktok.com/@laprincessenarimane" class="btn-ghost" style="padding:0.7rem 1.8rem;font-size:0.82rem" target="_blank" rel="noopener">TikTok</a>
+    </div>
+  </div>
+</section>
+
+<!-- QUESTIONS AVANT D'OFFRIR -->
+<section class="section-dark" id="questions" style="padding-top:2rem">
+  <div class="section-heading reveal-up">
+    <span class="section-tag"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> Avant d'offrir Narimane</span>
+    <h2 class="section-h2">Les réponses aux<br>dernières questions.</h2>
+  </div>
+  <div class="mini-faq-list">
+    <details class="mini-faq-item reveal-up">
+      <summary>Pour quel âge est conçu le livre ?</summary>
+      <div class="faq-answer">Dès 2 ans, en lecture partagée, et en autonomie vers 5-6 ans. Album cartonné de 32 pages, pensé pour durer.</div>
+    </details>
+    <details class="mini-faq-item reveal-up">
+      <summary>Combien de temps pour le recevoir ?</summary>
+      <div class="faq-answer">Votre exemplaire est expédié sous 7 à 10 jours ouvrés après votre commande.</div>
+    </details>
+    <details class="mini-faq-item reveal-up">
+      <summary>Le paiement est-il sécurisé ?</summary>
+      <div class="faq-answer">Oui, 100% sécurisé par carte bancaire via SumUp.</div>
+    </details>
+  </div>
+  <p class="section-nudge reveal-up">D'autres questions ? <a href="faq.html">Voir toute la FAQ →</a></p>
 </section>
 
 <!-- CTA -->
@@ -516,6 +535,22 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
   <p>Un livre qui transforme les lectures du soir en aventures extraordinaires dans un univers unique.</p>
   <a href="commande.html" class="btn-glow" style="position:relative;z-index:1"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> Commander maintenant</a>
   <p style="position:relative;z-index:1;margin-top:1.2rem"><a href="livre.html" style="color:rgba(240,201,106,0.6);font-size:0.82rem;text-decoration:none">Voir la fiche complète du livre →</a></p>
+</section>
+
+<!-- PARTENARIATS (PROFESSIONNELS) -->
+<section class="partner-strip" id="partenariats">
+  <div class="partner-strip-inner">
+    <div class="partner-strip-text reveal-up">
+      <span>Pour les professionnels</span>
+      <p>Écoles, médiathèques, associations : Narimane s'invite aussi dans vos établissements, en ateliers ou en commandes groupées.</p>
+    </div>
+    <div class="partner-pills reveal-up">
+      <span class="partner-pill">🏫 Écoles</span>
+      <span class="partner-pill">📖 Médiathèques</span>
+      <span class="partner-pill">🤝 Associations</span>
+      <a href="mailto:direction.laprincessenarimane@gmail.com" class="partner-pill" style="text-decoration:none">✉ Nous écrire</a>
+    </div>
+  </div>
 </section>
 
 <!-- FOOTER -->
@@ -646,6 +681,27 @@ const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
 },{threshold:0.08});
 reveals.forEach(el=>obs.observe(el));
+
+// NAV CTA ADAPTATIF : une fois le livre vu, le bouton du menu pousse directement vers la commande
+const navBtnEl=document.querySelector('.nav-btn');
+const navSentinel=document.getElementById('navCtaSentinel');
+if(navBtnEl && navSentinel){
+  const navDefaultHref=navBtnEl.getAttribute('href');
+  const navDefaultHtml=navBtnEl.innerHTML;
+  const navBuyHtml='Commander · 18 €';
+  const navObs=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.boundingClientRect.top<0){
+        navBtnEl.setAttribute('href','commande.html');
+        navBtnEl.innerHTML=navBuyHtml;
+      }else{
+        navBtnEl.setAttribute('href',navDefaultHref);
+        navBtnEl.innerHTML=navDefaultHtml;
+      }
+    });
+  },{threshold:0});
+  navObs.observe(navSentinel);
+}
 
 // MENU MOBILE (burger)
 const burger=document.getElementById('navBurger');
