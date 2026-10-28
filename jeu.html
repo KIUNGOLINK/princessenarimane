@@ -85,6 +85,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;display:
 .game-best-line{font-size:0.82rem!important;color:rgba(240,201,106,0.7)!important}
 .game-score-line{font-size:0.95rem!important;color:#fdf3dc!important}
 .game-card .btn-glow{margin-top:0.4rem}
+.game-diff-row{display:flex;gap:0.5rem;justify-content:center;margin-bottom:1.3rem;flex-wrap:wrap}
+.game-diff-btn{font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:700;color:rgba(255,253,247,0.6);background:rgba(240,201,106,0.06);border:1px solid rgba(240,201,106,0.2);border-radius:50px;padding:0.45rem 1.1rem;cursor:pointer;transition:all 0.25s}
+.game-diff-btn:hover{border-color:rgba(240,201,106,0.45);color:#fdf3dc}
+.game-diff-btn.active{background:linear-gradient(135deg,#D4A843,#e8833a);color:#1a0a00;border-color:transparent}
 
 .btn-glow{background:linear-gradient(135deg,#D4A843,#e8833a);color:#1a0a00;padding:1rem 2.4rem;border-radius:50px;font-family:'Nunito',sans-serif;font-size:0.95rem;font-weight:800;text-decoration:none;letter-spacing:0.05em;display:inline-block;transition:all 0.3s;box-shadow:0 0 35px rgba(212,168,67,0.4);border:none;cursor:pointer}
 .btn-glow:hover{transform:translateY(-3px) scale(1.03)}
@@ -133,6 +137,7 @@ footer{position:relative;background:#02040a;padding:3.5rem 4rem 2rem;border-top:
   .game-item{font-size:1.9rem}
   .game-item-crown{font-size:2.1rem}
   .game-card{padding:1.8rem 1.4rem}
+  .game-diff-btn{font-size:0.74rem;padding:0.4rem 0.9rem}
 }
 </style>
 </head>
@@ -186,6 +191,11 @@ footer{position:relative;background:#02040a;padding:3.5rem 4rem 2rem;border-top:
           <h2>Prêt·e à jouer ?</h2>
           <p>Touche les étoiles <strong>⭐</strong> dès qu'elles apparaissent. Les couronnes <strong>👑</strong> valent trois fois plus de points !</p>
           <p class="game-best-line" id="gameStartBestLine" hidden>Ton record actuel : <strong id="gameStartBest">0</strong> points</p>
+          <div class="game-diff-row" id="gameDiffRow">
+            <button type="button" class="game-diff-btn" data-diff="facile">🌙 Facile</button>
+            <button type="button" class="game-diff-btn" data-diff="normal">⭐ Normal</button>
+            <button type="button" class="game-diff-btn" data-diff="difficile">👑 Difficile</button>
+          </div>
           <button class="btn-glow" id="gamePlayBtn" type="button">✦ Jouer (45 secondes)</button>
         </div>
       </div>
@@ -195,6 +205,7 @@ footer{position:relative;background:#02040a;padding:3.5rem 4rem 2rem;border-top:
           <div style="font-size:2.6rem;margin-bottom:0.8rem">👑</div>
           <h2>Bravo !</h2>
           <p id="gameMessage">Bien joué !</p>
+          <p class="game-best-line" id="gameEndDiffLine">Niveau : Normal</p>
           <p class="game-score-line">Score : <strong id="gameFinalScore">0</strong> points — Record : <strong id="gameBestScore">0</strong> points</p>
           <button class="btn-glow" id="gameReplayBtn" type="button">✦ Rejouer</button>
           <p style="margin-top:1rem"><a href="livre.html" style="color:rgba(240,201,106,0.7);font-size:0.85rem;text-decoration:none">Découvrir le livre qui a inspiré ce jeu →</a></p>
@@ -317,33 +328,77 @@ if(navBtnEl){
   const messageEl=document.getElementById('gameMessage');
   const startBestLine=document.getElementById('gameStartBestLine');
   const startBestEl=document.getElementById('gameStartBest');
+  const diffRow=document.getElementById('gameDiffRow');
+  const diffButtons=diffRow?Array.from(diffRow.querySelectorAll('.game-diff-btn')):[];
+  const endDiffLine=document.getElementById('gameEndDiffLine');
 
+  const DIFFS={
+    facile:{label:'Facile',spawnMs:850,fallMin:4.2,fallMax:6.0,crown:0.22},
+    normal:{label:'Normal',spawnMs:650,fallMin:3.4,fallMax:5.0,crown:0.15},
+    difficile:{label:'Difficile',spawnMs:480,fallMin:2.4,fallMax:3.6,crown:0.10}
+  };
+
+  function getSavedDifficulty(){
+    try{
+      const d=localStorage.getItem('narimaneGameDifficulty');
+      return DIFFS[d]?d:'normal';
+    }catch(e){ return 'normal'; }
+  }
+  function saveDifficulty(d){
+    try{ localStorage.setItem('narimaneGameDifficulty',d); }catch(e){}
+  }
+
+  let selectedDifficulty=getSavedDifficulty();
   let score=0,timeLeft=GAME_DURATION,playing=false,gameInterval=null,spawnInterval=null;
 
-  function getBest(){
-    try{ return parseInt(localStorage.getItem('narimaneGameBest')||'0',10) || 0; }
+  function getBest(diff){
+    try{ return parseInt(localStorage.getItem('narimaneGameBest_'+diff)||'0',10) || 0; }
     catch(e){ return 0; }
   }
-  function setBest(v){
-    try{ localStorage.setItem('narimaneGameBest', String(v)); }catch(e){}
+  function setBest(diff,v){
+    try{ localStorage.setItem('narimaneGameBest_'+diff, String(v)); }catch(e){}
   }
 
-  const existingBest=getBest();
-  if(existingBest>0){
-    startBestEl.textContent=existingBest;
-    startBestLine.hidden=false;
+  function refreshStartBest(){
+    const best=getBest(selectedDifficulty);
+    if(best>0){
+      startBestEl.textContent=best;
+      startBestLine.hidden=false;
+    }else{
+      startBestLine.hidden=true;
+    }
   }
+
+  function setActiveDifficultyButton(){
+    diffButtons.forEach(btn=>{
+      btn.classList.toggle('active',btn.dataset.diff===selectedDifficulty);
+    });
+  }
+
+  diffButtons.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(playing) return;
+      selectedDifficulty=btn.dataset.diff;
+      saveDifficulty(selectedDifficulty);
+      setActiveDifficultyButton();
+      refreshStartBest();
+    });
+  });
+
+  setActiveDifficultyButton();
+  refreshStartBest();
 
   function spawnItem(){
     if(!playing) return;
-    const isCrown=Math.random()<0.15;
+    const diff=DIFFS[selectedDifficulty];
+    const isCrown=Math.random()<diff.crown;
     const el=document.createElement('button');
     el.type='button';
     el.className='game-item'+(isCrown?' game-item-crown':'');
     el.textContent=isCrown?'👑':(Math.random()<0.5?'⭐':'✨');
     el.setAttribute('aria-label',isCrown?'Couronne magique':'Étoile magique');
     el.style.left=(Math.random()*82)+'%';
-    const duration=(3.4+Math.random()*1.6).toFixed(2);
+    const duration=(diff.fallMin+Math.random()*(diff.fallMax-diff.fallMin)).toFixed(2);
     el.style.animationDuration=duration+'s';
     el.addEventListener('click',()=>catchItem(el,isCrown));
     el.addEventListener('touchstart',(e)=>{e.preventDefault();catchItem(el,isCrown);},{passive:false});
@@ -398,7 +453,7 @@ if(navBtnEl){
     clearInterval(gameInterval);
     clearInterval(spawnInterval);
     gameInterval=setInterval(tick,1000);
-    spawnInterval=setInterval(spawnItem,650);
+    spawnInterval=setInterval(spawnItem,DIFFS[selectedDifficulty].spawnMs);
     spawnItem();
   }
 
@@ -408,12 +463,14 @@ if(navBtnEl){
     clearInterval(spawnInterval);
     stage.querySelectorAll('.game-item').forEach(el=>el.remove());
     hud.hidden=true;
-    const best=Math.max(score,getBest());
-    setBest(best);
+    const best=Math.max(score,getBest(selectedDifficulty));
+    setBest(selectedDifficulty,best);
     finalScoreEl.textContent=score;
     bestScoreEl.textContent=best;
     messageEl.textContent=scoreMessage(score);
+    if(endDiffLine) endDiffLine.textContent='Niveau : '+DIFFS[selectedDifficulty].label;
     endOverlay.hidden=false;
+    refreshStartBest();
   }
 
   playBtn.addEventListener('click',startGame);
