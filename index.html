@@ -79,7 +79,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;display:
 .hero-subtitle-name{font-family:'Cinzel Decorative',serif;font-size:clamp(2.8rem,8.5vw,6.5rem);font-weight:900;background:linear-gradient(135deg,#fff 0%,#f0c96a 35%,#e8833a 65%,#fff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:1.5rem;display:block;filter:drop-shadow(0 0 40px rgba(240,201,106,0.6));animation:shimmer 4s ease-in-out infinite}
 @keyframes shimmer{0%,100%{filter:drop-shadow(0 0 30px rgba(240,201,106,0.4))}50%{filter:drop-shadow(0 0 60px rgba(232,131,58,0.8))}}
 .hero-desc{font-size:1.05rem;color:rgba(255,253,247,0.7);line-height:1.85;max-width:540px;margin:0 auto 2.5rem;font-weight:300}
-.hero-btns{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem}
+.hero-btns{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.6rem}
+.hero-trust{display:flex;gap:1.6rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem}
+.hero-trust span{font-size:0.76rem;color:rgba(255,253,247,0.5);letter-spacing:0.02em}
 .scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:0.5rem;animation:bounce-hint 2s ease-in-out infinite}
 @keyframes bounce-hint{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
 .scroll-hint span{font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(240,201,106,0.6);font-weight:600}
@@ -269,7 +271,7 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
     <li><a href="#soutien">Soutien</a></li>
     <li><a href="about.html">À propos</a></li>
   </ul>
-  <a href="commande.html" class="nav-btn">Commander <svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg></a>
+  <a href="livre.html" class="nav-btn">Le livre <svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg></a>
   <button class="nav-burger" id="navBurger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
     <span></span><span></span><span></span>
   </button>
@@ -290,8 +292,11 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
     <span class="hero-subtitle-name">Narimane</span>
     <p class="hero-desc">Entre les étoiles africaines et la magie des cheveux, une princesse extraordinaire t'attend dans un univers où tout est possible.</p>
     <div class="hero-btns">
-      <a href="#aventures" class="btn-glow"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> Entrer dans l'univers</a>
-      <a href="commande.html" class="btn-ghost">Commander le livre →</a>
+      <a href="livre.html" class="btn-glow"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> Découvrir le livre</a>
+      <a href="#univers" class="btn-ghost">Entrer dans l'univers</a>
+    </div>
+    <div class="hero-trust reveal-up">
+      <span>👧 Dès 2 ans</span><span>📖 Album cartonné, 32 pages</span><span>🔒 Paiement sécurisé</span>
     </div>
   </div>
   <div class="scroll-hint">
@@ -335,12 +340,12 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
     <h2 class="section-h2">Chaque histoire,<br>un portail vers la magie.</h2>
   </div>
   <div class="adventures-row">
-    <a href="commande.html" class="adv-card reveal-up delay-1" style="text-decoration:none">
+    <a href="livre.html" class="adv-card reveal-up delay-1" style="text-decoration:none">
       <div class="adv-bg adv-bg-1"></div>
       <div class="adv-overlay">
         <p class="adv-num">Aventure I, Disponible</p>
         <p class="adv-title">Narimane et les Cheveux Magiques</p>
-        <p class="adv-tag"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> Confiance en soi &nbsp;→ Commander</p>
+        <p class="adv-tag"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> Confiance en soi &nbsp;→ Découvrir</p>
       </div>
     </a>
     <div class="adv-card adv-card-soon reveal-up delay-2">
@@ -461,6 +466,7 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
   <h2>Offrez la magie<br>à votre enfant.</h2>
   <p>Un livre qui transforme les lectures du soir en aventures extraordinaires dans un univers unique.</p>
   <a href="commande.html" class="btn-glow" style="position:relative;z-index:1"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> Commander maintenant</a>
+  <p style="position:relative;z-index:1;margin-top:1.2rem"><a href="livre.html" style="color:rgba(240,201,106,0.6);font-size:0.82rem;text-decoration:none">Voir la fiche complète du livre →</a></p>
 </section>
 
 <!-- FOOTER -->
@@ -486,7 +492,7 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
       <ul class="foot-links">
         <li><a href="about.html">À propos</a></li>
         <li><a href="faq.html">FAQ</a></li>
-        <li><a href="commande.html">Boutique</a></li>
+        <li><a href="livre.html">Le livre</a></li>
         <li><a href="mailto:direction.laprincessenarimane@gmail.com">Contact</a></li>
       </ul>
     </div>
