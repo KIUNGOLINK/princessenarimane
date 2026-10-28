@@ -95,6 +95,23 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;display:
 .btn-ghost{background:transparent;color:rgba(255,253,247,0.8);padding:1rem 2.8rem;border-radius:50px;border:1px solid rgba(240,201,106,0.35);font-family:'Nunito',sans-serif;font-size:0.95rem;font-weight:700;text-decoration:none;display:inline-block;transition:all 0.3s;backdrop-filter:blur(10px)}
 .btn-ghost:hover{border-color:rgba(240,201,106,0.7);background:rgba(240,201,106,0.07);color:#f0c96a;transform:translateY(-3px)}
 
+/* PRODUIT VEDETTE */
+.pv-section{position:relative;z-index:2;padding:5.5rem 4rem;background:linear-gradient(180deg,#03080f 0%,#150a35 100%);overflow:hidden}
+.pv-wrap{max-width:1050px;margin:0 auto;display:grid;grid-template-columns:360px 1fr;gap:3.5rem;align-items:center}
+.pv-cover{position:relative;border-radius:20px;overflow:hidden;box-shadow:0 25px 70px rgba(0,0,0,0.5),0 0 70px rgba(212,168,67,0.15);border:1px solid rgba(240,201,106,0.22);transform:rotate(-2deg);transition:transform 0.4s;display:block}
+.pv-cover:hover{transform:rotate(0deg) scale(1.02)}
+.pv-cover img{width:100%;display:block;aspect-ratio:3/4;object-fit:cover}
+.pv-flag{position:absolute;top:1rem;left:1rem;background:linear-gradient(135deg,#D4A843,#e8833a);color:#1a0a00;font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.4rem 0.9rem;border-radius:50px;font-weight:800;box-shadow:0 0 20px rgba(212,168,67,0.5)}
+.pv-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.5rem,3.2vw,2.3rem);font-weight:700;line-height:1.25;background:linear-gradient(135deg,#FDF3DC 0%,#f0c96a 40%,#e8833a 70%,#FDF3DC 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.6rem}
+.pv-sub{font-size:0.92rem;color:rgba(255,253,247,0.5);margin-bottom:1.2rem}
+.pv-desc{font-size:0.96rem;color:rgba(255,253,247,0.7);line-height:1.8;max-width:480px;margin-bottom:1.3rem}
+.pv-badges{display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:1.5rem}
+.pv-badge{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(240,201,106,0.08);border:1px solid rgba(240,201,106,0.22);border-radius:50px;padding:0.4rem 0.9rem;font-size:0.74rem;color:rgba(255,253,247,0.75);font-weight:600}
+.pv-price{display:flex;align-items:baseline;gap:0.7rem;margin-bottom:1.6rem}
+.pv-price strong{font-family:'Cinzel Decorative',serif;font-weight:900;font-size:1.9rem;color:#f0c96a}
+.pv-price span{font-size:0.78rem;color:rgba(255,253,247,0.4)}
+.pv-ctas{display:flex;gap:1rem;flex-wrap:wrap}
+
 /* SECTIONS */
 .section-dark{position:relative;z-index:2;padding:7rem 4rem;background:linear-gradient(180deg,#03080f 0%,#0a0320 50%,#03080f 100%)}
 .section-heading{text-align:center;margin-bottom:4.5rem}
@@ -238,6 +255,9 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
   .nav-links a{font-size:1.05rem}
   .section-dark{padding:5rem 1.5rem}
   .cards-world,.adventures-row,.partenariat-grid,.testimonials-dark{grid-template-columns:1fr}
+  .pv-section{padding:3.5rem 1.5rem}
+  .pv-wrap{grid-template-columns:1fr;gap:2rem}
+  .pv-cover{max-width:280px;margin:0 auto;transform:none}
   .soutien-grid{grid-template-columns:1fr 1fr;gap:1rem}
   .hero-content{padding:1rem}
   .cta-universe{padding:6rem 2rem}
@@ -302,6 +322,35 @@ footer{position:relative;z-index:2;background:#02040a;padding:3.5rem 4rem 2rem;b
   <div class="scroll-hint">
     <span>Descends</span>
     <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- PRODUIT VEDETTE -->
+<section class="pv-section">
+  <div class="pv-wrap">
+    <a href="livre.html" class="pv-cover reveal-up">
+      <span class="pv-flag">Disponible</span>
+      <picture>
+        <source srcset="images/cover-livre.webp" type="image/webp">
+        <img src="images/cover-livre.jpg" alt="Couverture du livre Les Aventures de la Princesse Narimane" loading="lazy">
+      </picture>
+    </a>
+    <div class="reveal-up delay-1">
+      <span class="section-tag"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> Le livre</span>
+      <h2 class="pv-title">Les Aventures de la Princesse Narimane</h2>
+      <p class="pv-sub">Tome 1 : Narimane et les Cheveux Magiques</p>
+      <p class="pv-desc">Un album illustré qui aide les enfants à grandir avec confiance, à célébrer leur beauté naturelle et à se sentir fiers de leurs racines. À lire en famille ou en autonomie, dès 2 ans.</p>
+      <div class="pv-badges">
+        <span class="pv-badge">👧 Dès 2 ans</span>
+        <span class="pv-badge">📖 Album cartonné, 32 pages</span>
+        <span class="pv-badge">🚚 Livré en 7 à 10 jours</span>
+      </div>
+      <div class="pv-price"><strong>18 €</strong><span>15 € en salon</span></div>
+      <div class="pv-ctas">
+        <a href="commande.html" class="btn-glow"><svg class="ic-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 4.8 2.6 6.8 7.4 7.4-4.8.6-6.8 2.6-7.4 7.4-.6-4.8-2.6-6.8-7.4-7.4C9.4 6.8 11.4 4.8 12 0z"/></svg> Commander maintenant</a>
+        <a href="livre.html" class="btn-ghost">Voir la fiche complète</a>
+      </div>
+    </div>
   </div>
 </section>
 
